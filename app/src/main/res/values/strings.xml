@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Zvent</string>
+    <string name="botton_iniciar">Iniciar</string>
+    <string name="nombre_text">Christian Perez</string>
+    <string name="telefono_text">Telefono: </string>
+    <string name="email_text">Email: </string>
+    <string name="Resultado_text">Registro</string>
+    <string name="invitados_text">Invitados: %1$d</string>
+    <string name="Registrados_edit">Registrados: %1$d</string>
+    <string name="reiniciar_text">Reiniciar</string>
+    <string name="verInvitados_text">Ver invitados</string>
+    <string name="about_text">Esta es una aplicacion para llevar un ordenado listado de personas para alguna reunión</string>
+    <string name="about">About</string>
+    <string name="home">Home</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="asistente">Asistió</string>
+    <string name="noAsistente">No Asistió</string>
+    <string name="titulo_invitados">Invitado (%1$d/%2$d)</string>
+    <string name="Invited">Invitados</string>
+    <string name="ingresar_Nom">Ingrese el Nombre</string>
+    <string name="ingresar_Email">Ingresar el correo electronico</string>
+    <string name="ingresar_tel">Ingresar el numero telefono</string>
+    <string name="save_button">Save</string>
+</resources>

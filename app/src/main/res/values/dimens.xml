@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="bottons">18</dimen>
+    <dimen name="nombre_title">40sp</dimen>
+    <dimen name="telefono_title">18sp</dimen>
+    <dimen name="subtitulo">28sp</dimen>
+</resources>

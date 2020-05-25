@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.zvent.home.HomeFragment"
+        android:label="homeFragment" >
+        <action
+            android:id="@+id/action_homeFragment2_to_listFragment2"
+            app:destination="@id/listFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.example.zvent.list.ListFragment"
+        android:label="ListFragment" >
+        <action
+            android:id="@+id/action_listFragment2_to_resultsFragment2"
+            app:destination="@id/resultsFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/resultsFragment"
+        android:name="com.example.zvent.results.ResultsFragment"
+        android:label="ResultsFragment" >
+        <action
+            android:id="@+id/action_resultsFragment_to_listFragment"
+            app:destination="@id/listFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.example.zvent.home.aboutFragment"
+        android:label="aboutFragment" />
+    <fragment
+        android:id="@+id/informacionFragment"
+        android:name="com.example.zvent.informacion.InformacionFragment"
+        android:label="InformacionFragment" >
+        <action
+            android:id="@+id/action_informacionFragment_to_addFragment"
+            app:destination="@id/addFragment"
+            app:popUpTo="@id/informacionFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/addFragment"
+        android:name="com.example.zvent.addInvitado.AddFragment"
+        android:label="AddFragment" >
+        <action
+            android:id="@+id/action_addFragment_to_informacionFragment"
+            app:destination="@id/informacionFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+</navigation>
