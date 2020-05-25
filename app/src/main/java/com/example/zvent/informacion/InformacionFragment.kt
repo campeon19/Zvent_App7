@@ -1,7 +1,6 @@
 package com.example.zvent.informacion
 
 import android.content.Context
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,10 +9,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import com.example.zvent.DataBinderMapperImpl
 
 import com.example.zvent.R
-import com.example.zvent.data.InvitadosUser
+import com.example.zvent.database.ZventDatabase
 import com.example.zvent.databinding.InformacionFragmentBinding
 
 class InformacionFragment : Fragment() {
@@ -26,7 +24,6 @@ class InformacionFragment : Fragment() {
     private lateinit var viewModel: InformacionViewModel
 
     private lateinit var binding: InformacionFragmentBinding
-    private lateinit var invitadosUser: InvitadosUser
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,20 +47,15 @@ class InformacionFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModelFactory = InformacionViewModelFactory(invitadosUser.invitados)
+        val application = requireNotNull(this.activity).application
+        val dataSource = ZventDatabase.getInstance(application).ZventDatabaseDao
+
+        viewModelFactory = InformacionViewModelFactory(dataSource)
         viewModel = ViewModelProvider(this, viewModelFactory).get(InformacionViewModel::class.java)
+
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        try{
-            invitadosUser = context as InvitadosUser
-        } catch (castException: ClassCastException){
-
-        }
     }
 
 }

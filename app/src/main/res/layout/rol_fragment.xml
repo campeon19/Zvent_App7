@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable type="com.example.zvent.informacion.InformacionViewModel"
+        <variable type="com.example.zvent.roles.RolViewModel"
             name="ViewModel"/>
     </data>
 
@@ -37,7 +37,7 @@
                     android:id="@+id/questions_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{ViewModel.invitadosText}"
+                    android:text="@{ViewModel.rolText}"
                     android:textSize="20sp" />
             </ScrollView>
 

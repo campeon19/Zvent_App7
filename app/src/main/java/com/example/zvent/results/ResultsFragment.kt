@@ -1,7 +1,6 @@
 package com.example.zvent.results
 
 import android.content.Context
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,11 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 
 import com.example.zvent.R
-import com.example.zvent.data.InvitadosUser
+import com.example.zvent.database.ZventDatabase
 import com.example.zvent.databinding.ResultsFragmentBinding
 
 class ResultsFragment : Fragment() {
@@ -24,9 +24,8 @@ class ResultsFragment : Fragment() {
 
     private lateinit var viewModel: ResultsViewModel
     private lateinit var viewModelFactory: ResultsViewModelFactory
-
     private  lateinit var binding: ResultsFragmentBinding
-    private lateinit var invitadosUser: InvitadosUser
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,13 +39,13 @@ class ResultsFragment : Fragment() {
         )
 
         binding.verInvitadosButton.setOnClickListener {
-            Toast.makeText(this.context, viewModel.asistentesTxt.value!!, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, viewModel.resultsText.value!!, Toast.LENGTH_SHORT).show()
 
         }
 
-        binding.reiniciarButton.setOnClickListener{
+    /*    binding.reiniciarButton.setOnClickListener{
             requireView().findNavController().navigate(ResultsFragmentDirections.actionResultsFragmentToListFragment())
-        }
+        }*/
 
 
         return binding.root
@@ -55,22 +54,31 @@ class ResultsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModelFactory = ResultsViewModelFactory(invitadosUser.invitados)
+        val application = requireNotNull(this.activity).application
+        val dataSource = ZventDatabase.getInstance(application).ZventDatabaseDao
+
+        viewModelFactory = ResultsViewModelFactory(dataSource)
         viewModel = ViewModelProvider(this, viewModelFactory).get(ResultsViewModel::class.java)
 
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+
+        binding.reiniciarButton.setOnClickListener{
+            viewModel.restart()
+        }
+
+
     }
 
-    override fun onAttach(context: Context) {
+    /*override fun onAttach(context: Context) {
         super.onAttach(context)
         try{
             invitadosUser = context as InvitadosUser
         } catch (castException: ClassCastException){
 
         }
-    }
+    }*/
 
 
 }

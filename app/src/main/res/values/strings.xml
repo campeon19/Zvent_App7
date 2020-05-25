@@ -23,4 +23,9 @@
     <string name="ingresar_Email">Ingresar el correo electronico</string>
     <string name="ingresar_tel">Ingresar el numero telefono</string>
     <string name="save_button">Save</string>
+    <string name="Rol_text">"Rol: "</string>
+    <string name="rol_descripcion">Ingrese la descripcion</string>
+    <string name="orden">Seleccione el orden</string>
+    <string name="Rol">Roles</string>
+    <string name="Escoger_Rol">Escoger Rol</string>
 </resources>

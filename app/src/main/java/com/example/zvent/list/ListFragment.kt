@@ -1,21 +1,19 @@
 package com.example.zvent.list
 
 import android.content.Context
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 
 import com.example.zvent.R
-import com.example.zvent.data.Invitados
-import com.example.zvent.data.InvitadosUser
+import com.example.zvent.database.ZventDatabase
 import com.example.zvent.databinding.ListFragmentBinding
+import kotlinx.android.synthetic.main.results_fragment.*
 import java.lang.ClassCastException
 
 class ListFragment : Fragment() {
@@ -23,12 +21,9 @@ class ListFragment : Fragment() {
     companion object {
         fun newInstance() = ListFragment()
     }
-
+    private lateinit var viewModelFactory: ListViewModelFactory
     private lateinit var viewModel: ListViewModel
     private lateinit var binding: ListFragmentBinding
-
-    private lateinit var invitadosUser: InvitadosUser
-    private  var invitadosIndex: Int= -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,9 +43,25 @@ class ListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         binding.lifecycleOwner = this
-        viewModel = ViewModelProvider(this).get(ListViewModel::class.java)
+        val application = requireNotNull(this.activity).application
+        val dataSource = ZventDatabase.getInstance(application).ZventDatabaseDao
+        viewModelFactory = ListViewModelFactory(dataSource)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(ListViewModel::class.java)
         binding.viewModel = viewModel
-        updateInfoInvitados()
+
+        viewModel.registeredComplete.observe(viewLifecycleOwner, Observer {
+            if (it){
+                requireView().findNavController().navigate(ListFragmentDirections.actionListFragment2ToResultsFragment2())
+                viewModel.finishRegister()
+            }
+        })
+
+        viewModel.invitadosList.observe(viewLifecycleOwner, Observer {
+            viewModel.init(it)
+            (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.titulo_invitados,viewModel.invitadoCount, viewModel.invitadosTotal)
+        })
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -59,6 +70,18 @@ class ListFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.asist){
+            viewModel.updateCurrentInvitado()
+        }
+
+        if(item.itemId == R.id.noAsist){
+            viewModel.updateCurrentInvitadoNo()
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.asist){
             invitadosUser.invitados[invitadosIndex].estado = "si"
             if (!updateInfoInvitados()){
@@ -97,7 +120,7 @@ class ListFragment : Fragment() {
         } catch (castException: ClassCastException){
 
         }
-    }
+    }*/
 
 
 

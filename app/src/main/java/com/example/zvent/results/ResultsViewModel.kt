@@ -2,12 +2,64 @@ package com.example.zvent.results
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.example.zvent.data.Invitados
+import com.example.zvent.database.Invitados
+import com.example.zvent.database.RolInvitado
+import com.example.zvent.database.ZventDatabaseDao
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.DisposableHandle
+import kotlinx.coroutines.Job
+import java.lang.StringBuilder
 
-class ResultsViewModel(results: MutableList<Invitados>) : ViewModel() {
+class ResultsViewModel(val database: ZventDatabaseDao) : ViewModel() {
 
-    var cont: Int = 0
+    var invitados = database.getInvitados()
+    var totalInvitados = database.getInvitadosTotal()
+    var totalAsistentes = database.getInvitadoRegistrado()
+
+    private val viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
+    private val _restartRegister = MutableLiveData<Boolean>()
+    val restartRegister: LiveData<Boolean>
+        get() = _restartRegister
+
+    private val _eventSeeGuests = MutableLiveData<Boolean>()
+    val eventSeeGuests: LiveData<Boolean>
+        get() = _eventSeeGuests
+
+
+    val resultsText = Transformations.map(invitados){
+        buildResultsText(it)
+    }
+
+    fun restart(){
+        _restartRegister.value = totalInvitados.value ?: 0>0
+    }
+
+    fun restartComplete() {
+        _restartRegister.value = false
+    }
+
+    fun verInvitados(){
+        _eventSeeGuests.value = true
+    }
+
+    private fun buildResultsText(invitados: List<Invitados>): String {
+        val resultsText = StringBuilder()
+        for(invitado in invitados){
+            resultsText.append("${invitado.nombre}: ${invitado.estado}")
+        }
+        return resultsText.toString()
+    }
+
+
+
+
+
+    /*var cont: Int = 0
     private val _resultsCount = MutableLiveData<Int>()
     val resultsCount: LiveData<Int>
         get() = _resultsCount
@@ -30,6 +82,6 @@ class ResultsViewModel(results: MutableList<Invitados>) : ViewModel() {
             }
         }
         _asistResult.value = cont
-    }
+    }*/
 
 }

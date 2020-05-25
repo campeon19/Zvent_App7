@@ -58,4 +58,24 @@
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="false" />
     </fragment>
+    <fragment
+        android:id="@+id/rolFragment"
+        android:name="com.example.zvent.roles.RolFragment"
+        android:label="RolFragment" >
+        <action
+            android:id="@+id/action_rolFragment_to_addRolFragment"
+            app:destination="@id/addRolFragment"
+            app:popUpTo="@id/rolFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/addRolFragment"
+        android:name="com.example.zvent.new_rol.AddRolFragment"
+        android:label="AddRolFragment" >
+        <action
+            android:id="@+id/action_addRolFragment_to_rolFragment"
+            app:destination="@id/rolFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
 </navigation>
